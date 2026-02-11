@@ -50,7 +50,7 @@ EOT
     virtual_network_gateway_id         = string
     shared_key                         = optional(string)
     routing_weight                     = optional(number)
-    private_link_fast_path_enabled     = optional(bool, false)
+    private_link_fast_path_enabled     = optional(bool) # Default: false
     peer_virtual_network_gateway_id    = optional(string)
     local_network_gateway_id           = optional(string)
     local_azure_ip_address_enabled     = optional(bool)
@@ -61,7 +61,7 @@ EOT
     egress_nat_rule_ids                = optional(set(string))
     dpd_timeout_seconds                = optional(number)
     connection_protocol                = optional(string)
-    connection_mode                    = optional(string, "Default")
+    connection_mode                    = optional(string) # Default: "Default"
     authorization_key                  = optional(string)
     express_route_gateway_bypass       = optional(bool)
     use_policy_based_traffic_selectors = optional(bool)
