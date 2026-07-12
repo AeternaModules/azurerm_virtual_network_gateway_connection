@@ -81,47 +81,18 @@ EOT
       sa_datasize      = optional(number)
       sa_lifetime      = optional(number)
     }))
-    traffic_selector_policy = optional(object({
+    traffic_selector_policy = optional(list(object({
       local_address_cidrs  = list(string)
       remote_address_cidrs = list(string)
-    }))
+    })))
   }))
-  validation {
-    condition = alltrue([
-      for k, v in var.virtual_network_gateway_connections : (
-        length(v.name) > 0
-      )
-    ])
-    error_message = "must not be empty"
-  }
-  validation {
-    condition = alltrue([
-      for k, v in var.virtual_network_gateway_connections : (
-        v.authorization_key == null || (length(v.authorization_key) > 0)
-      )
-    ])
-    error_message = "must not be empty"
-  }
-  validation {
-    condition = alltrue([
-      for k, v in var.virtual_network_gateway_connections : (
-        v.routing_weight == null || (v.routing_weight >= 0 && v.routing_weight <= 32000)
-      )
-    ])
-    error_message = "must be between 0 and 32000"
-  }
-  validation {
-    condition = alltrue([
-      for k, v in var.virtual_network_gateway_connections : (
-        v.ipsec_policy == null || (v.ipsec_policy.sa_lifetime == null || (v.ipsec_policy.sa_lifetime >= 300))
-      )
-    ])
-    error_message = "must be at least 300"
-  }
   # --- Unconfirmed validation candidates, derived from azurerm_virtual_network_gateway_connection's provider source ---
   # Not auto-enabled: either a bespoke provider validator we can't safely translate,
   # or a path that crosses a list-typed block (needs its own for_each wrapping).
   # Review, translate into a real validation{} block above, and delete once confirmed.
+  # path: name
+  #   condition: length(value) > 0
+  #   message:   must not be empty
   # path: resource_group_name
   #   condition: length(value) <= 90
   #   message:   [from resourcegroups.ValidateName: invalid when len(value) > 90]
@@ -144,6 +115,9 @@ EOT
   #   source:    [from virtualnetworkgateways.ValidateVirtualNetworkGatewayID] !ok
   # path: virtual_network_gateway_id
   #   source:    [from virtualnetworkgateways.ValidateVirtualNetworkGatewayID] err != nil
+  # path: authorization_key
+  #   condition: length(value) > 0
+  #   message:   must not be empty
   # path: express_route_circuit_id
   #   source:    [from expressroutecircuits.ValidateExpressRouteCircuitID] !ok
   # path: express_route_circuit_id
@@ -164,6 +138,9 @@ EOT
   #   source:    [from localnetworkgateways.ValidateLocalNetworkGatewayID] !ok
   # path: local_network_gateway_id
   #   source:    [from localnetworkgateways.ValidateLocalNetworkGatewayID] err != nil
+  # path: routing_weight
+  #   condition: value >= 0 && value <= 32000
+  #   message:   must be between 0 and 32000
   # path: connection_protocol
   #   source:    validation.StringInSlice value list is not a literal []string - likely a generated PossibleValuesFor*() helper; resolve separately
   # path: connection_mode
@@ -186,6 +163,9 @@ EOT
   #   source:    validation.StringInSlice value list is not a literal []string - likely a generated PossibleValuesFor*() helper; resolve separately
   # path: ipsec_policy.sa_datasize
   #   source:    validation.IntBetween(0, math.MaxInt32) - bound(s) not a literal int (e.g. a named constant like math.MaxInt32) - resolve manually
+  # path: ipsec_policy.sa_lifetime
+  #   condition: value >= 300
+  #   message:   must be at least 300
   # path: tags
   #   condition: length(value) <= 50
   #   message:   [from tags.Validate: invalid when len(value) > 50]
