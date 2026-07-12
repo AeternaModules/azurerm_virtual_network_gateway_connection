@@ -9,6 +9,8 @@ Required:
     - virtual_network_gateway_id
 Optional:
     - authorization_key
+    - authorization_key_key_vault_id (alternative to authorization_key - read from Key Vault instead)
+    - authorization_key_key_vault_secret_name (alternative to authorization_key - read from Key Vault instead)
     - bgp_enabled
     - connection_mode
     - connection_protocol
@@ -24,6 +26,8 @@ Optional:
     - private_link_fast_path_enabled
     - routing_weight
     - shared_key
+    - shared_key_key_vault_id (alternative to shared_key - read from Key Vault instead)
+    - shared_key_key_vault_secret_name (alternative to shared_key - read from Key Vault instead)
     - tags
     - use_policy_based_traffic_selectors
     - custom_bgp_addresses (block):
@@ -44,29 +48,33 @@ Optional:
 EOT
 
   type = map(object({
-    location                           = string
-    name                               = string
-    resource_group_name                = string
-    type                               = string
-    virtual_network_gateway_id         = string
-    shared_key                         = optional(string)
-    routing_weight                     = optional(number)
-    private_link_fast_path_enabled     = optional(bool) # Default: false
-    peer_virtual_network_gateway_id    = optional(string)
-    local_network_gateway_id           = optional(string)
-    local_azure_ip_address_enabled     = optional(bool)
-    ingress_nat_rule_ids               = optional(set(string))
-    express_route_gateway_bypass       = optional(bool)
-    enable_bgp                         = optional(bool)
-    tags                               = optional(map(string))
-    egress_nat_rule_ids                = optional(set(string))
-    dpd_timeout_seconds                = optional(number)
-    connection_protocol                = optional(string)
-    connection_mode                    = optional(string) # Default: "Default"
-    bgp_enabled                        = optional(bool)
-    authorization_key                  = optional(string)
-    express_route_circuit_id           = optional(string)
-    use_policy_based_traffic_selectors = optional(bool)
+    location                                = string
+    name                                    = string
+    resource_group_name                     = string
+    type                                    = string
+    virtual_network_gateway_id              = string
+    shared_key                              = optional(string)
+    shared_key_key_vault_id                 = optional(string)
+    shared_key_key_vault_secret_name        = optional(string)
+    routing_weight                          = optional(number)
+    private_link_fast_path_enabled          = optional(bool) # Default: false
+    peer_virtual_network_gateway_id         = optional(string)
+    local_network_gateway_id                = optional(string)
+    local_azure_ip_address_enabled          = optional(bool)
+    ingress_nat_rule_ids                    = optional(set(string))
+    express_route_gateway_bypass            = optional(bool)
+    enable_bgp                              = optional(bool)
+    tags                                    = optional(map(string))
+    egress_nat_rule_ids                     = optional(set(string))
+    dpd_timeout_seconds                     = optional(number)
+    connection_protocol                     = optional(string)
+    connection_mode                         = optional(string) # Default: "Default"
+    bgp_enabled                             = optional(bool)
+    authorization_key                       = optional(string)
+    authorization_key_key_vault_id          = optional(string)
+    authorization_key_key_vault_secret_name = optional(string)
+    express_route_circuit_id                = optional(string)
+    use_policy_based_traffic_selectors      = optional(bool)
     custom_bgp_addresses = optional(object({
       primary   = string
       secondary = optional(string)

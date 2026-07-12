@@ -1,3 +1,13 @@
+data "azurerm_key_vault_secret" "authorization_key" {
+  for_each     = { for k, v in var.virtual_network_gateway_connections : k => v if v.authorization_key_key_vault_id != null && v.authorization_key_key_vault_secret_name != null }
+  name         = each.value.authorization_key_key_vault_secret_name
+  key_vault_id = each.value.authorization_key_key_vault_id
+}
+data "azurerm_key_vault_secret" "shared_key" {
+  for_each     = { for k, v in var.virtual_network_gateway_connections : k => v if v.shared_key_key_vault_id != null && v.shared_key_key_vault_secret_name != null }
+  name         = each.value.shared_key_key_vault_secret_name
+  key_vault_id = each.value.shared_key_key_vault_id
+}
 resource "azurerm_virtual_network_gateway_connection" "virtual_network_gateway_connections" {
   for_each = var.virtual_network_gateway_connections
 
@@ -6,7 +16,7 @@ resource "azurerm_virtual_network_gateway_connection" "virtual_network_gateway_c
   resource_group_name                = each.value.resource_group_name
   type                               = each.value.type
   virtual_network_gateway_id         = each.value.virtual_network_gateway_id
-  shared_key                         = each.value.shared_key
+  shared_key                         = each.value.shared_key != null ? each.value.shared_key : try(data.azurerm_key_vault_secret.shared_key[each.key].value, null)
   routing_weight                     = each.value.routing_weight
   private_link_fast_path_enabled     = each.value.private_link_fast_path_enabled
   peer_virtual_network_gateway_id    = each.value.peer_virtual_network_gateway_id
@@ -21,7 +31,7 @@ resource "azurerm_virtual_network_gateway_connection" "virtual_network_gateway_c
   connection_protocol                = each.value.connection_protocol
   connection_mode                    = each.value.connection_mode
   bgp_enabled                        = each.value.bgp_enabled
-  authorization_key                  = each.value.authorization_key
+  authorization_key                  = each.value.authorization_key != null ? each.value.authorization_key : try(data.azurerm_key_vault_secret.authorization_key[each.key].value, null)
   express_route_circuit_id           = each.value.express_route_circuit_id
   use_policy_based_traffic_selectors = each.value.use_policy_based_traffic_selectors
 
