@@ -57,7 +57,7 @@ EOT
     shared_key_key_vault_id                 = optional(string)
     shared_key_key_vault_secret_name        = optional(string)
     routing_weight                          = optional(number)
-    private_link_fast_path_enabled          = optional(bool) # Default: false
+    private_link_fast_path_enabled          = optional(bool)
     peer_virtual_network_gateway_id         = optional(string)
     local_network_gateway_id                = optional(string)
     local_azure_ip_address_enabled          = optional(bool)
@@ -68,7 +68,7 @@ EOT
     egress_nat_rule_ids                     = optional(set(string))
     dpd_timeout_seconds                     = optional(number)
     connection_protocol                     = optional(string)
-    connection_mode                         = optional(string) # Default: "Default"
+    connection_mode                         = optional(string)
     bgp_enabled                             = optional(bool)
     authorization_key                       = optional(string)
     authorization_key_key_vault_id          = optional(string)
