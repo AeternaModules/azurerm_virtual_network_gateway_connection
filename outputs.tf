@@ -31,10 +31,6 @@ output "virtual_network_gateway_connections_egress_nat_rule_ids" {
   description = "Map of egress_nat_rule_ids values across all virtual_network_gateway_connections, keyed the same as var.virtual_network_gateway_connections"
   value       = { for k, v in azurerm_virtual_network_gateway_connection.virtual_network_gateway_connections : k => v.egress_nat_rule_ids if v.egress_nat_rule_ids != null && length(v.egress_nat_rule_ids) > 0 }
 }
-output "virtual_network_gateway_connections_enable_bgp" {
-  description = "Map of enable_bgp values across all virtual_network_gateway_connections, keyed the same as var.virtual_network_gateway_connections"
-  value       = { for k, v in azurerm_virtual_network_gateway_connection.virtual_network_gateway_connections : k => v.enable_bgp if v.enable_bgp != null }
-}
 output "virtual_network_gateway_connections_express_route_circuit_id" {
   description = "Map of express_route_circuit_id values across all virtual_network_gateway_connections, keyed the same as var.virtual_network_gateway_connections"
   value       = { for k, v in azurerm_virtual_network_gateway_connection.virtual_network_gateway_connections : k => v.express_route_circuit_id if v.express_route_circuit_id != null && length(v.express_route_circuit_id) > 0 }

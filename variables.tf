@@ -16,7 +16,6 @@ Optional:
     - connection_protocol
     - dpd_timeout_seconds
     - egress_nat_rule_ids
-    - enable_bgp
     - express_route_circuit_id
     - express_route_gateway_bypass
     - ingress_nat_rule_ids
@@ -62,10 +61,9 @@ EOT
     local_network_gateway_id                = optional(string)
     local_azure_ip_address_enabled          = optional(bool)
     ingress_nat_rule_ids                    = optional(set(string))
-    express_route_gateway_bypass            = optional(bool)
-    enable_bgp                              = optional(bool)
-    tags                                    = optional(map(string))
     egress_nat_rule_ids                     = optional(set(string))
+    express_route_circuit_id                = optional(string)
+    tags                                    = optional(map(string))
     dpd_timeout_seconds                     = optional(number)
     connection_protocol                     = optional(string)
     connection_mode                         = optional(string)
@@ -73,7 +71,7 @@ EOT
     authorization_key                       = optional(string)
     authorization_key_key_vault_id          = optional(string)
     authorization_key_key_vault_secret_name = optional(string)
-    express_route_circuit_id                = optional(string)
+    express_route_gateway_bypass            = optional(bool)
     use_policy_based_traffic_selectors      = optional(bool)
     custom_bgp_addresses = optional(object({
       primary   = string

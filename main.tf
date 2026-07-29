@@ -23,16 +23,15 @@ resource "azurerm_virtual_network_gateway_connection" "virtual_network_gateway_c
   local_network_gateway_id           = each.value.local_network_gateway_id
   local_azure_ip_address_enabled     = each.value.local_azure_ip_address_enabled
   ingress_nat_rule_ids               = each.value.ingress_nat_rule_ids
-  express_route_gateway_bypass       = each.value.express_route_gateway_bypass
-  enable_bgp                         = each.value.enable_bgp
-  tags                               = each.value.tags
   egress_nat_rule_ids                = each.value.egress_nat_rule_ids
+  express_route_circuit_id           = each.value.express_route_circuit_id
+  tags                               = each.value.tags
   dpd_timeout_seconds                = each.value.dpd_timeout_seconds
   connection_protocol                = each.value.connection_protocol
   connection_mode                    = each.value.connection_mode
   bgp_enabled                        = each.value.bgp_enabled
   authorization_key                  = each.value.authorization_key != null ? each.value.authorization_key : try(data.azurerm_key_vault_secret.authorization_key[each.key].value, null)
-  express_route_circuit_id           = each.value.express_route_circuit_id
+  express_route_gateway_bypass       = each.value.express_route_gateway_bypass
   use_policy_based_traffic_selectors = each.value.use_policy_based_traffic_selectors
 
   dynamic "custom_bgp_addresses" {
