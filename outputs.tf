@@ -21,7 +21,7 @@ output "virtual_network_gateway_connections_connection_protocol" {
 }
 output "virtual_network_gateway_connections_custom_bgp_addresses" {
   description = "Map of custom_bgp_addresses values across all virtual_network_gateway_connections, keyed the same as var.virtual_network_gateway_connections"
-  value       = { for k, v in azurerm_virtual_network_gateway_connection.virtual_network_gateway_connections : k => v.custom_bgp_addresses if v.custom_bgp_addresses != null && length(v.custom_bgp_addresses) > 0 }
+  value       = { for k, v in azurerm_virtual_network_gateway_connection.virtual_network_gateway_connections : k => one(v.custom_bgp_addresses) if v.custom_bgp_addresses != null && length(v.custom_bgp_addresses) > 0 }
 }
 output "virtual_network_gateway_connections_dpd_timeout_seconds" {
   description = "Map of dpd_timeout_seconds values across all virtual_network_gateway_connections, keyed the same as var.virtual_network_gateway_connections"
@@ -49,7 +49,7 @@ output "virtual_network_gateway_connections_ingress_nat_rule_ids" {
 }
 output "virtual_network_gateway_connections_ipsec_policy" {
   description = "Map of ipsec_policy values across all virtual_network_gateway_connections, keyed the same as var.virtual_network_gateway_connections"
-  value       = { for k, v in azurerm_virtual_network_gateway_connection.virtual_network_gateway_connections : k => v.ipsec_policy if v.ipsec_policy != null && length(v.ipsec_policy) > 0 }
+  value       = { for k, v in azurerm_virtual_network_gateway_connection.virtual_network_gateway_connections : k => one(v.ipsec_policy) if v.ipsec_policy != null && length(v.ipsec_policy) > 0 }
 }
 output "virtual_network_gateway_connections_local_azure_ip_address_enabled" {
   description = "Map of local_azure_ip_address_enabled values across all virtual_network_gateway_connections, keyed the same as var.virtual_network_gateway_connections"
